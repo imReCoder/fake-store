@@ -1,0 +1,42 @@
+<div class="wrapper row g-5 pt-5">
+
+  <div *ngFor="let cartItem of carItems$ | async" class="col-md-6 col-lg-4 col-xl-3">
+    <mat-card  class="border position-relative overflow-hidden" >
+      <button mat-button (click)="removeItem(cartItem.product.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <img (click)="openProduct(cartItem.product.id)" mat-card-image [src]="cartItem.product.image" alt="Photo" style="object-fit: contain;">
+      <mat-card-content >
+        <div class="text-center fs-5 fw-bold">{{cartItem.product.title?.substring(0,20)}}</div>
+        <p class="pt-2">
+          {{cartItem.product.description?.substring(0,80)}}
+        </p>
+      </mat-card-content>
+      <div class="position-absolute pe-4 w-100 bottom-0">
+        <mat-divider></mat-divider>
+        <mat-card-actions class="d-flex justify-content-between">
+          <div class="d-flex justify-content-center align-items-center ps-1">
+            <span class="fs-5 fw-medium">{{cartItem.product.price}}</span>
+            <mat-icon class="w-25 d-flex justify-content-center fw-medium">attach_money</mat-icon>
+          </div>
+          <div class="pe-1">
+            <span>
+             <button mat-button (click)="decreaseQuantity(cartItem.product.id)">-</button>
+            </span>
+            <!-- <span><b>Quantity: </b></span> -->
+            <span>{{cartItem.count}}</span>
+            <span>
+              <button mat-button (click)="increaseQuantity(cartItem.product.id)">+</button>
+
+            </span>
+
+          </div>
+        </mat-card-actions>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="no-items">
+    No Items in cart
+  </div>
+</div>

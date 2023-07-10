@@ -1,0 +1,29 @@
+<mat-dialog-content class="mat-typography" style="width: 800px; height: 600px;">
+  <mat-progress-bar *ngIf="!product" mode="indeterminate"></mat-progress-bar>
+    <div *ngIf="product" class="d-flex h-100">
+      <div class="img d-flex align-items-center w-50" style="height: 100%">
+        <img [src]="product.image" class="w-100 h-50" width="100" height="100" alt="">
+      </div>
+      <div class="d-flex flex-column justify-content-center text-center w-50">
+        <h2 class="fw-bolder">{{product.title}}</h2>
+        <mat-divider></mat-divider>
+        <h4>{{product.description}}</h4>
+
+        <div class="details pt-5">
+          <p class="fw-medium">Category:
+            <span class="ps-1 fw-light">{{product.category}}</span>
+          </p>
+          <p class="fw-medium">Price:
+            <span class="ps-1 fw-light">{{product.price}}</span>
+          </p>
+          <p class="fw-medium">Rating:
+            <span class="ps-1 fw-light">+{{product.rating?.count}}</span>
+          </p>
+          <div class="icons d-flex flex-row justify-content-center">
+            <mat-icon *ngFor="let star of generateArray(product?.rating?.rate)">star</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+</mat-dialog-content>
+

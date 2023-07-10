@@ -1,0 +1,95 @@
+<div class="row g-5 pt-5" style="margin-bottom: 120px;">
+<div class="col-3">
+
+<div class="filter bg-white" >
+  <div class="filter-items">
+    <div class="header pb-4 text-center">
+      <h2 class="fs-1 fw-bolder text-danger">Search</h2>
+      <mat-divider></mat-divider>
+    </div>
+    <div class="row g-3 px-2">
+      <div class="col-md-12">
+        <mat-form-field class="example-form-field">
+          <mat-label>Search</mat-label>
+          <input matInput type="text" placeholder="Ex. Samsung..." [(ngModel)]="search" (keyup)="productSearch()">
+          <button *ngIf="search" matSuffix mat-icon-button aria-label="Clear" (click)="search=''">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="fill">
+          <mat-label>Category</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let category of categories" [value]="category" (click)="getProductByCategory(category)">
+              {{category}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <p class="pb-1 fs-6 fw-bold text-secondary">Order By</p>
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button value="1" class="pe-4" (click)="getProductBySort('asc')">ACS</mat-radio-button>
+          <mat-radio-button value="2" (click)="getProductBySort('desc')">DESC</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="col-9">
+<div class="row g-5 pt-5" style="margin-bottom: 120px;">
+  <div *ngFor="let product of products" class="col-md-6 col-lg-4 col-xl-3">
+    <mat-card *ngIf="products && products.length" class="border position-relative overflow-hidden" >
+      <img (click)="openDialog(product.id)" mat-card-image [src]="product.image" alt="Photo" style="object-fit: contain;">
+      <mat-card-content >
+        <div class="text-center fs-5 fw-bold">{{product.title?.substring(0,20)}}</div>
+        <p class="pt-2">
+          {{product.description?.substring(0,80)}}
+        </p>
+      </mat-card-content>
+      <div class="position-absolute pe-4 w-100 bottom-0">
+        <mat-divider></mat-divider>
+        <mat-card-actions class="d-flex justify-content-between">
+          <div class="d-flex justify-content-center align-items-center ps-1">
+            <span class="fs-5 fw-medium">{{product.price}}</span>
+            <mat-icon class="w-25 d-flex justify-content-center fw-medium">attach_money</mat-icon>
+          </div>
+          <div class="pe-1">
+            <button mat-mini-fab>
+              <mat-icon class="d-flex justify-content-center align-items-center">add_shopping_cart</mat-icon>
+            </button>
+            <button mat-mini-fab class="ms-1" color="primary" (click)="openDialog(product.id)">
+              <mat-icon class="d-flex justify-content-center align-items-center">visibility</mat-icon>
+            </button>
+          </div>
+        </mat-card-actions>
+      </div>
+    </mat-card>
+  </div>
+  </div>
+  </div>
+
+  <div *ngIf="isRequestSubmitted && (!products || products.length == 0)"
+    class="text-center position-absolute start-50 translate-middle" style="top:40%">
+    <h3 class="p-5 fw-bold pb-0">There is no data to display</h3>
+    <mat-icon class="fs-1 text-warning">sentiment_dissatisfied</mat-icon>
+  </div>
+
+  <div class="px-4">
+    <mat-paginator
+      *ngIf="masterProduct"
+      (page)="handlePageEvent($event)"
+      [disabled]="!masterProduct || masterProduct.length == 0"
+      [length]="masterProduct.length"
+      [pageSize]="products.length"
+      [pageSizeOptions]="[4, 8, 16, masterProduct.length]"
+      [showFirstLastButtons]="false"
+      aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>
+
